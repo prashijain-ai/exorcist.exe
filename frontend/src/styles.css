@@ -1,0 +1,129 @@
+:root {
+  --ash: #08080a; --bone: #eee6d0; --blood: #c4141f; --gore: #5a0a10;
+  --tallow: #e0ad4a; --moss: #8cc29a; --dim: #c9c1ad;
+  --x: 50vw; --y: 28vh; --beat: 1.2s;
+}
+* { box-sizing: border-box; }
+html { background: var(--ash); }
+body {
+  margin: 0; color: var(--bone); min-height: 100vh;
+  font-family: "IM Fell English", Georgia, serif; font-size: 18px; line-height: 1.55;
+  background: radial-gradient(ellipse 80% 40% at 50% 0%, #2a0a0d 0%, transparent 70%), var(--ash);
+}
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9; opacity: .08;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+.fog { position: fixed; inset: -20%; pointer-events: none; z-index: 1; opacity: .5;
+  background: radial-gradient(40% 30% at 20% 70%, rgba(120,130,120,.10), transparent 70%),
+              radial-gradient(35% 28% at 80% 40%, rgba(120,130,120,.09), transparent 70%);
+  animation: drift 40s ease-in-out infinite alternate; }
+.lantern { position: fixed; inset: 0; pointer-events: none; z-index: 5;
+  background: radial-gradient(circle 340px at var(--x) var(--y), transparent 0, rgba(4,4,6,.12) 55%, rgba(4,4,6,.58) 100%);
+  animation: lampflicker 5s infinite; }
+.pulse { position: fixed; inset: 0; pointer-events: none; z-index: 4; animation: heart var(--beat) infinite; }
+.flash { position: fixed; inset: 0; z-index: 6; pointer-events: none; background: var(--blood); opacity: 0; transition: opacity .5s; }
+.flash.on { opacity: .3; transition: opacity .1s; }
+
+.drips { position: fixed; top: 0; left: 0; right: 0; height: 0; z-index: 3; pointer-events: none; }
+.drips span { position: absolute; top: 0; width: 7px; height: 0; border-radius: 0 0 7px 7px;
+  background: linear-gradient(var(--blood), #3a0408); animation: drip 13s ease-in infinite; }
+.drips span::after { content: ""; position: absolute; bottom: -5px; left: -2px; width: 11px; height: 11px; border-radius: 50%; background: #3a0408; }
+
+.eyes { position: fixed; z-index: 2; display: flex; gap: 14px; pointer-events: none; opacity: 0; animation: peer 45s infinite; }
+.eyes i { width: 9px; height: 5px; border-radius: 50%; background: #ff3b30; box-shadow: 0 0 10px 3px rgba(255,59,48,.7); }
+
+main { max-width: 980px; margin: 0 auto; padding: 56px 24px 80px; position: relative; z-index: 7; }
+
+.hero h1 { position: relative; font-family: "Pirata One", "IM Fell English", serif; font-weight: 400;
+  font-size: clamp(64px, 14vw, 148px); line-height: .9; margin: 0; color: var(--bone);
+  text-shadow: 0 0 40px rgba(196,20,31,.6); animation: flicker 7s infinite; }
+.hero h1 span { color: var(--blood); }
+.hero h1::before, .hero h1::after { content: attr(data-text); position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+.hero h1::before { color: var(--blood); animation: glitch1 9s infinite; }
+.hero h1::after { color: var(--moss); animation: glitch2 9s infinite; }
+.lede { max-width: 56ch; font-size: 21px; font-style: italic; color: var(--dim); margin: 18px 0 40px; }
+
+.meters { display: grid; grid-template-columns: 1.4fr 1fr; border-top: 1px solid var(--gore); border-bottom: 1px solid var(--gore); }
+.meter { padding: 26px 0; display: flex; flex-direction: column; }
+.meter b { font-family: "Pirata One", serif; font-weight: 400; font-variant-numeric: tabular-nums; font-size: clamp(46px, 8vw, 86px); line-height: 1; }
+.meter b small { font-size: .32em; font-family: "IM Fell English", serif; font-style: italic; color: var(--dim); }
+.meter span { font-style: italic; color: var(--dim); margin-top: 6px; }
+.bleed b { color: var(--blood); animation: throb var(--beat) ease-in-out infinite; }
+.rest { padding-left: 32px; border-left: 1px solid var(--gore); }
+.rest b { color: var(--moss); text-shadow: 0 0 22px rgba(140,194,154,.4); }
+
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin: 52px 0 14px; }
+h2 { font-family: "Pirata One", serif; font-weight: 400; font-size: 34px; margin: 0; }
+.mode { display: flex; border: 1px solid #4a3a2a; }
+.mode button { font: inherit; font-size: 15px; color: var(--dim); background: none; border: 0; padding: 7px 14px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+.mode button i { width: 9px; height: 9px; border-radius: 50%; background: #5a5446; }
+.mode button.on { background: rgba(224,173,74,.14); color: var(--bone); }
+.mode button.on i { background: var(--blood); box-shadow: 0 0 8px var(--blood); }
+.mode button.on.live i { background: #4be27a; box-shadow: 0 0 8px #4be27a; }
+.mode button:disabled { opacity: .45; cursor: not-allowed; }
+
+.actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-bottom: 8px; }
+.summon { font: inherit; font-size: 17px; color: var(--tallow); background: none; border: 1px solid var(--tallow); padding: 9px 16px; cursor: pointer; }
+.summon:hover:not(:disabled) { background: rgba(224,173,74,.14); box-shadow: 0 0 18px rgba(224,173,74,.35); }
+.summon:disabled { opacity: .55; cursor: wait; }
+.toast { margin: 0; min-height: 1.6em; color: var(--tallow); font-style: italic; }
+.quiet { font-style: italic; font-size: 22px; padding: 40px 0; color: var(--moss); }
+
+.ledger { list-style: none; margin: 0; padding: 0; }
+.ghost { display: grid; grid-template-columns: 1fr 250px; gap: 28px; padding: 28px 0 28px 18px; border-top: 1px solid #3a1215;
+  position: relative; transition: all 1.1s ease-in; }
+.ghost::before { content: ""; position: absolute; left: 0; top: 28px; bottom: 28px; width: 3px; background: var(--blood);
+  box-shadow: 0 0 12px var(--blood); animation: throb var(--beat) infinite; }
+.ghost:last-child { border-bottom: 1px solid #3a1215; }
+.ghost h3 { font-family: "Pirata One", serif; font-weight: 400; font-size: 30px; margin: 0; }
+.ghost:hover h3 { animation: jit .3s steps(2) 2; color: var(--blood); }
+.rid { margin: 2px 0 10px; color: var(--tallow); font-size: 16px; }
+.rid i { color: #c4bca8; margin-left: 8px; }
+.story { margin: 0; max-width: 58ch; color: #e3dbc3; }
+.side { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.cost { font-family: "Pirata One", serif; font-size: 44px; line-height: 1; color: var(--blood); }
+.cost small { display: block; font-family: "IM Fell English", serif; font-size: 14px; font-style: italic; color: var(--dim); }
+.seal { font-size: 15px; font-style: italic; padding-left: 12px; border-left: 3px solid; }
+.seal.high { color: #f0605e; } .seal.medium { color: var(--tallow); } .seal.low { color: var(--moss); }
+.rite { font: inherit; font-size: 18px; color: var(--bone); background: var(--gore); border: 1px solid var(--blood);
+  padding: 10px 18px; cursor: pointer; transition: background .2s, box-shadow .2s; min-width: 210px; text-align: left; }
+.rite:hover:not(:disabled) { background: var(--blood); box-shadow: 0 0 26px rgba(196,20,31,.8); }
+.rite:disabled { opacity: .6; cursor: wait; }
+button:focus-visible { outline: 2px solid var(--tallow); outline-offset: 3px; }
+
+.ghost.banishing { opacity: 0; filter: blur(7px); letter-spacing: .25em; transform: translateY(-34px); }
+.ghost.banishing .cost { color: var(--bone); }
+
+.rested { margin-top: 56px; }
+.rested ul { list-style: none; padding: 0; margin: 12px 0 0; }
+.rested li { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 0; border-bottom: 1px dotted #3a362c; color: #b3ab95; }
+.rested li span { color: var(--moss); font-style: italic; }
+footer { margin-top: 72px; font-style: italic; font-size: 15px; color: #a39b86; }
+
+.sound { position: fixed; top: 16px; right: 16px; z-index: 10; font: inherit; font-size: 16px; color: var(--tallow);
+  background: rgba(8,8,10,.85); border: 1px solid var(--tallow); padding: 8px 14px; cursor: pointer; }
+.sound:hover { background: rgba(224,173,74,.15); }
+.sound[aria-pressed="true"] { color: var(--moss); border-color: var(--moss); }
+
+@keyframes flicker { 0%,100%{opacity:1} 41%{opacity:1} 42%{opacity:.5} 43%{opacity:1} 46%{opacity:.65} 47%{opacity:1} }
+@keyframes throb { 0%,100%{text-shadow:0 0 18px rgba(196,20,31,.5);opacity:.92} 50%{text-shadow:0 0 46px rgba(196,20,31,1);opacity:1} }
+@keyframes heart { 0%,100%{box-shadow:inset 0 0 120px rgba(160,10,20,0)} 12%{box-shadow:inset 0 0 160px rgba(160,10,20,.32)} 30%{box-shadow:inset 0 0 120px rgba(160,10,20,.05)} 42%{box-shadow:inset 0 0 150px rgba(160,10,20,.22)} }
+@keyframes drip { 0%{height:0;opacity:0} 8%{opacity:1} 55%{height:38vh;opacity:1} 90%{height:46vh;opacity:0} 100%{height:0;opacity:0} }
+@keyframes peer { 0%,90%{opacity:0} 93%{opacity:1} 95%{opacity:0} 96%{opacity:1} 100%{opacity:0} }
+@keyframes drift { to { transform: translate3d(6%, -3%, 0); } }
+@keyframes lampflicker { 0%,100%{opacity:1} 30%{opacity:.93} 32%{opacity:1} 70%{opacity:.95} }
+@keyframes glitch1 { 0%,90%,100%{opacity:0} 91%{opacity:.8;transform:translate(-5px,1px);clip-path:inset(10% 0 55% 0)} 93%{opacity:.8;transform:translate(4px,-2px);clip-path:inset(60% 0 8% 0)} 95%{opacity:0} }
+@keyframes glitch2 { 0%,90%,100%{opacity:0} 92%{opacity:.7;transform:translate(5px,-1px);clip-path:inset(40% 0 30% 0)} 94%{opacity:.7;transform:translate(-4px,2px);clip-path:inset(5% 0 70% 0)} 96%{opacity:0} }
+@keyframes jit { 0%{transform:translate(0,0)} 50%{transform:translate(-2px,1px)} 100%{transform:translate(2px,-1px)} }
+
+@media (max-width: 720px) {
+  .meters { grid-template-columns: 1fr; }
+  .rest { padding-left: 0; border-left: 0; border-top: 1px solid var(--gore); }
+  .ghost { grid-template-columns: 1fr; gap: 14px; }
+  .lantern { background: radial-gradient(ellipse at 50% 20%, transparent 40%, rgba(4,4,6,.55) 100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero h1, .bleed b, .ghost::before, .fog, .drips span, .eyes, .pulse, .lantern, .hero h1::before, .hero h1::after { animation: none; }
+  .ghost { transition: none; }
+}
