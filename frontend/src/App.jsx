@@ -221,7 +221,7 @@ export default function App() {
                 <i /> Haunted demo realm
               </button>
               <button className={live ? "on live" : ""} aria-pressed={live} disabled={!API} title={API ? "" : "Set VITE_API_URL to connect your AWS account"} onClick={() => setMode("live")}>
-                <i /> Live AWS account
+                <i /> Live AWS account{!API && " (not connected)"}
               </button>
             </div>
           </div>
@@ -277,7 +277,7 @@ export default function App() {
         )}
 
         <footer>
-          
+          {!live && "Demo mode: these findings are sample data, not a real AWS account. "}
           {cur === "INR"
             ? <>Costs are estimates from us-east-1 list prices, shown in rupees at about ₹{RATE} per US dollar. AWS bills in US dollars. </>
             : "Costs are estimates from us-east-1 list prices, in US dollars. "}
