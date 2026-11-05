@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Procedural horror soundscape: no audio files, nothing to license.
 let ctx, master, timer, pulseTimer;
 let pulseMs = null;
