@@ -277,6 +277,7 @@ export default function App() {
         )}
 
         <footer>
+          
           {cur === "INR"
             ? <>Costs are estimates from us-east-1 list prices, shown in rupees at about ₹{RATE} per US dollar. AWS bills in US dollars. </>
             : "Costs are estimates from us-east-1 list prices, in US dollars. "}
